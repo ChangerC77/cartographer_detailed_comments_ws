@@ -1,0 +1,20 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+
+  <node name="cartographer_node" pkg="cartographer_ros"
+      type="cartographer_node" args="
+          -configuration_directory $(find cartographer_ros)/configuration_files
+          -configuration_basename turtlebot3_lds_2d_gazebo.lua"
+      output="screen">
+    <!-- <remap from="scan" to="scan" />
+    <remap from="imu" to="imu" /> -->
+  </node>
+
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+      type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+
+  <node name="rviz" pkg="rviz" type="rviz" required="true"
+      args="-d $(find cartographer_ros)/configuration_files/demo_2d.rviz" />
+
+  <param name="/localization" type="bool" value = "0"/>
+</launch>
